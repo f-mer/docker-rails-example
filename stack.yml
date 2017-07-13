@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  web:
+    image: fmer/docker-rails-example:latest
+    environment:
+      DATABASE_URL: mysql2://root:example@mysql/example_application
+      REDIS_URL: redis://redis:6379/1
+      SECRET_KEY_BASE: f1e691c4fb158fcc8fca8256685cb9b8de22b1922e582ff563da88a2789e29706968f042f7959dfa5fdff9415b8fefb70fc7000ee3c640a7c8930612709f7174
+    ports:
+      - 3000:3000
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+  redis:
+    image: redis
