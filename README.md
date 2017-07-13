@@ -1,24 +1,36 @@
-# README
+# docker-rails-example
+Rails application development and deployment with docker.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Development
+Start the services:
+```sh
+$ docker-compose up -d
+```
 
-Things you may want to cover:
+Create the database:
+```sh
+$ docker-compose run --rm web bin/rails db:create
+```
 
-* Ruby version
+## Production
+Deploy the applocation via `stack.yml` into a swarm cluster.
 
-* System dependencies
+[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/f-mer/docker-rails-example/master/stack.yml)
 
-* Configuration
+or
 
-* Database creation
+deploy the services via the CLI
+```sh
+$ docker stack deploy -c stack.yml rails
+```
 
-* Database initialization
+After deploying the application with PWD or manually the database has to be created.
+```sh
+$ cname=$(docker ps --format '{{.Names}}' | grep 'web' | head -1)
+$ docker exec $cname bin/rails db:create
+```
 
-* How to run the test suite
+Make sure everything works as expected by visiting the `/heatlh` endpoint and checking the container health via `docker ps`.
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## See also
+- [dockerfiles/rails](https://github.com/f-mer/dockerfiles/tree/master/rails) - Rails docker image based on alpine for development.
