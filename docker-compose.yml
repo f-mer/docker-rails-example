@@ -7,7 +7,7 @@ volumes:
 services:
   web:
     image: fmer/rails
-    command: bin/rails s -b 0.0.0.0
+    command: sh -c '(bin/bundle check || bin/bundle install) && bin/rails db:create && bin/rails s -b 0.0.0.0'
     environment:
       DATABASE_URL: mysql2://root:example@mysql/example_application
       REDIS_URL: redis://redis:6379/1
@@ -18,16 +18,11 @@ services:
       - bundle:/usr/local/bundle
     tmpfs:
       - /usr/src/tmp
-    healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 30s
-      retries: 3
   mysql:
-    image: mysql
+    image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: example
     volumes:
       - mysql:/var/lib/mysql
   redis:
-    image: redis
+    image: redis:4
