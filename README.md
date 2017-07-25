@@ -13,7 +13,7 @@ $ docker-compose run --rm web bin/rails db:create
 ```
 
 ## Production
-Deploy the applocation via `stack.yml` into a swarm cluster.
+Deploy the application via `stack.yml` into a swarm cluster.
 
 [![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com?stack=https://raw.githubusercontent.com/f-mer/docker-rails-example/master/stack.yml)
 
